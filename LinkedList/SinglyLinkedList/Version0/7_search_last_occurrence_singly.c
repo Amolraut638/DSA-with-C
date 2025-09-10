@@ -2,7 +2,6 @@
 #include<malloc.h>
 
 struct node{
-    struct node* pPrev;
     int iData;
     struct node* pNext;
 };
@@ -11,7 +10,7 @@ struct node{
 void Display(struct node*);
 void DeleteAll(struct node**);
 void InsertFirst(struct node**, int);
-int SearchFirstOccurrence(struct node *, int);
+int SearchLastOccurrence(struct node *, int);
 
 
 int main(void){
@@ -19,20 +18,19 @@ int main(void){
     int iPos;
     struct node* pFirst;
 
-    //function calls to create linked list by inserting node at first position
-    InsertFirst(&pFirst, 40);
-    InsertFirst(&pFirst, 56);
-    InsertFirst(&pFirst, 34);
-    InsertFirst(&pFirst, 98);
-    InsertFirst(&pFirst, 70);
-    InsertFirst(&pFirst, 45);
+    //function calls to insertin node at first position
+    InsertFirst(&pFirst, 90);
+    InsertFirst(&pFirst, 20);
+    InsertFirst(&pFirst, 50);
+    InsertFirst(&pFirst, 80);
+    InsertFirst(&pFirst, 20);
 
     //function call to display list nodes
-    Display(pFirst);   //  |45|->|70|->|98|->|34|->|56|->|40|->|NULL|
+    Display(pFirst);     // |20|->|80|->|50|->|20|->|90|->|NULL|
 
     //function call to find fist occurrence of the node
-    iPos = SearchFirstOccurrence(pFirst, 40);
-    printf("\nNode is found at position %d", iPos);   // Node is found at position 6
+    iPos = SearchLastOccurrence(pFirst, 20);
+    printf("\nLast occurrence of the node is at position %d", iPos);   // Last occurrence of the node is at position 4
 
 
     //Function to delete All nodes from the list
@@ -47,27 +45,28 @@ int main(void){
 }
 
 
-//function to find first occurrence in doubly linked list
-int SearchFirstOccurrence(struct node *pHead, int iKey){
+//function to find Last occurrence in singly linked list
+int SearchLastOccurrence(struct node *pHead, int iKey){
 
     int iPos = 0;
+    int iLastPos = 0;
 
     while(NULL != pHead){
         iPos++;
         if(pHead -> iData == iKey)
-            return iPos;
+            iLastPos = iPos;
         pHead = pHead -> pNext;
     }
 
-    return 0;
+    return iLastPos;
 }
 
 
 //function to insert the node at first position 
 void InsertFirst(struct node **ppHead, int iNo){
 
-    struct node *pNewNode = NULL;
-    pNewNode = (struct node *)malloc(sizeof(struct node));
+    struct node* pNewNode = NULL;
+    pNewNode = (struct node*) malloc(sizeof(struct node));
 
     if(NULL == pNewNode){
         printf("Memory allocation failed !");
@@ -75,16 +74,7 @@ void InsertFirst(struct node **ppHead, int iNo){
     }
 
     pNewNode -> iData = iNo;
-    pNewNode -> pPrev = NULL;
-
-    if(NULL == *ppHead){  
-        pNewNode -> pNext = NULL;
-        *ppHead = pNewNode;
-        return; 
-    }
-
     pNewNode -> pNext = *ppHead;
-    (*ppHead) -> pPrev = pNewNode;
     *ppHead = pNewNode;
 }
 

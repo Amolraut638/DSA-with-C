@@ -11,28 +11,29 @@ struct node{
 void Display(struct node*);
 void DeleteAll(struct node**);
 void InsertFirst(struct node**, int);
-int SearchFirstOccurrence(struct node *, int);
+int SearchAllOccurrences(struct node *, int);
 
 
 int main(void){
 
-    int iPos;
+    int iCount;
     struct node* pFirst;
 
     //function calls to create linked list by inserting node at first position
-    InsertFirst(&pFirst, 40);
-    InsertFirst(&pFirst, 56);
-    InsertFirst(&pFirst, 34);
-    InsertFirst(&pFirst, 98);
     InsertFirst(&pFirst, 70);
-    InsertFirst(&pFirst, 45);
+    InsertFirst(&pFirst, 50);
+    InsertFirst(&pFirst, 70);
+    InsertFirst(&pFirst, 98);
+    InsertFirst(&pFirst, 75);
+    InsertFirst(&pFirst, 70);
+    InsertFirst(&pFirst, 56);
 
     //function call to display list nodes
-    Display(pFirst);   //  |45|->|70|->|98|->|34|->|56|->|40|->|NULL|
+    Display(pFirst);   //   |56|->|70|->|75|->|98|->|70|->|50|->|70|->|NULL|
 
     //function call to find fist occurrence of the node
-    iPos = SearchFirstOccurrence(pFirst, 40);
-    printf("\nNode is found at position %d", iPos);   // Node is found at position 6
+    iCount = SearchAllOccurrences(pFirst, 70);
+    printf("\nFound %d times", iCount);   //  Found 3 times
 
 
     //Function to delete All nodes from the list
@@ -47,19 +48,18 @@ int main(void){
 }
 
 
-//function to find first occurrence in doubly linked list
-int SearchFirstOccurrence(struct node *pHead, int iKey){
+//function to find All occurrences in doubly linked list
+int SearchAllOccurrences(struct node *pHead, int iKey){
 
-    int iPos = 0;
+    int iCount = 0;
 
     while(NULL != pHead){
-        iPos++;
         if(pHead -> iData == iKey)
-            return iPos;
+            iCount++;
         pHead = pHead -> pNext;
     }
 
-    return 0;
+    return iCount;
 }
 
 

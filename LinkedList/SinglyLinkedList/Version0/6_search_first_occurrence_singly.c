@@ -26,7 +26,7 @@ int main(void){
     InsertFirst(&pFirst, 20);
     InsertFirst(&pFirst, 70);
 
-    //function to display list nodes
+    //function call to display list nodes
     Display(pFirst);   // |70|->|20|->|80|->|50|->|30|->|90|->|NULL|
 
     //function call to find fist occurrence of the node

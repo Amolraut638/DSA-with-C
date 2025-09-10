@@ -28,7 +28,7 @@ int main(void){
     InsertFirst(&pFirst, 92); 
 
 
-    //function to display nodes
+    //function call to display nodes
     printf("\n");
     Display(pFirst);   // |92|->|76|->|45|->|70|->|30|->|90|->|10|->|NULL|
     

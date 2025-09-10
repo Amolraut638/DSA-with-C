@@ -107,5 +107,6 @@ void Display(struct node* pHead){
 
 //function to delete all nodes from the list
 void DeleteAll(struct node** ppHead){
-    //code
+
+    //codes
 }

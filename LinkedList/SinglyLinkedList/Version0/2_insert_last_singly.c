@@ -1,7 +1,5 @@
 #include<stdio.h>
 #include<malloc.h>
-
-// defining structure of singly linked list
 struct node {
     int iData;
     struct node *pNext;
@@ -13,31 +11,29 @@ void DeleteAll(struct node **);
 void InsertLast(struct node **, int);
 
 
-int main(void){
+int main(void) {
 
     struct node *pFirst = NULL;
 
-    //function calls to insert nodes at last position in a list
     InsertLast(&pFirst, 10);
     InsertLast(&pFirst, 20);
     InsertLast(&pFirst, 30);
 
-    //function call to display all elements from a list
     Display(pFirst);      // |10|->|20|->|30|->|NULL|
 
-    /* 
-    if(NULL != pFirst){
+    if(NULL != pFirst) {
         DeleteAll(&pFirst);
         pFirst = NULL;
     }  
-    */
+
+    printf("\n");
+    Display(pFirst);  // List is empty !
 
     return 0;
 }
 
 
-//function definition to insert the element at a last position in a list
-void InsertLast(struct node **ppHead, int iNo){
+void InsertLast(struct node **ppHead, int iNo) {
 
     struct node *pNewNode = NULL;
     pNewNode = (struct node *)malloc(sizeof(struct node));
@@ -45,7 +41,7 @@ void InsertLast(struct node **ppHead, int iNo){
     struct node *pTemp = NULL;  //for traversing till last node 
 
     //NULL checking
-    if(NULL == pNewNode){
+    if(NULL == pNewNode) {
         printf("Memory allocation failed !");
         return;
     }
@@ -53,14 +49,14 @@ void InsertLast(struct node **ppHead, int iNo){
     pNewNode -> iData = iNo;
     pNewNode -> pNext = NULL;
 
-    if(NULL == *ppHead){
+    if(NULL == *ppHead) {
         *ppHead = pNewNode;
         return;
     }
 
     pTemp = *ppHead;
 
-    while(pTemp -> pNext != NULL){
+    while(pTemp -> pNext != NULL) {
         pTemp = pTemp -> pNext;
     } // at this point pTemp is pointing to the last node
 
@@ -68,13 +64,14 @@ void InsertLast(struct node **ppHead, int iNo){
 }
 
 
-//function definition to display all elements(nodes) from a list
-void Display(struct node *pHead){
-
-    if(NULL == pHead)
+void Display(struct node *pHead) {
+    
+    if(NULL == pHead) {
+        printf("List is empty !");
         return;
-
-    while(pHead != NULL){
+    }
+        
+    while(pHead != NULL) { 
         printf("|%d|->", pHead -> iData);
         pHead = pHead -> pNext;
     }
@@ -83,7 +80,13 @@ void Display(struct node *pHead){
 }
 
 
-//functiom to delete All nodes from a list
-void DeleteAll(struct node **ppHead){
-    //code
+void DeleteAll(struct node **ppHead) {
+    
+    struct node *pTemp = NULL;
+
+    while(*ppHead != NULL){
+        pTemp = *ppHead;
+        *ppHead = pTemp -> pNext;
+        free(pTemp);
+    }
 }

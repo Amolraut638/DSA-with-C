@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<malloc.h>
-
-struct node{
+struct node {
     int iData;
     struct node* pNext;
 };
@@ -13,45 +12,40 @@ void InsertFirst(struct node**, int);
 int SearchLastOccurrence(struct node *, int);
 
 
-int main(void){
+int main(void) {
 
     int iPos;
     struct node* pFirst;
 
-    //function calls to insertin node at first position
     InsertFirst(&pFirst, 90);
     InsertFirst(&pFirst, 20);
     InsertFirst(&pFirst, 50);
     InsertFirst(&pFirst, 80);
     InsertFirst(&pFirst, 20);
 
-    //function call to display list nodes
     Display(pFirst);     // |20|->|80|->|50|->|20|->|90|->|NULL|
 
-    //function call to find fist occurrence of the node
     iPos = SearchLastOccurrence(pFirst, 20);
     printf("\nLast occurrence of the node is at position %d", iPos);   // Last occurrence of the node is at position 4
 
-
-    //Function to delete All nodes from the list
-   /*  
-   if(NULL != pFirst){
+   if(NULL != pFirst) {
         DeleteAll(&pFirst);
         pFirst = NULL;
     } 
-    */
+    
+    printf("\n");
+    Display(pFirst); // List is empty !
 
     return 0;
 }
 
 
-//function to find Last occurrence in singly linked list
-int SearchLastOccurrence(struct node *pHead, int iKey){
+int SearchLastOccurrence(struct node *pHead, int iKey) {
 
     int iPos = 0;
     int iLastPos = 0;
 
-    while(NULL != pHead){
+    while(NULL != pHead) {
         iPos++;
         if(pHead -> iData == iKey)
             iLastPos = iPos;
@@ -62,13 +56,12 @@ int SearchLastOccurrence(struct node *pHead, int iKey){
 }
 
 
-//function to insert the node at first position 
-void InsertFirst(struct node **ppHead, int iNo){
+void InsertFirst(struct node **ppHead, int iNo) {
 
     struct node* pNewNode = NULL;
     pNewNode = (struct node*) malloc(sizeof(struct node));
 
-    if(NULL == pNewNode){
+    if(NULL == pNewNode) {
         printf("Memory allocation failed !");
         return;
     }
@@ -79,14 +72,14 @@ void InsertFirst(struct node **ppHead, int iNo){
 }
 
 
-//function to display all nodes from the list
-void Display(struct node* pHead){
-
-    if(NULL == pHead){
+void Display(struct node *pHead) {
+    
+    if(NULL == pHead) {
+        printf("List is empty !");
         return;
     }
-
-    while(NULL != pHead){
+        
+    while(pHead != NULL) { 
         printf("|%d|->", pHead -> iData);
         pHead = pHead -> pNext;
     }
@@ -95,7 +88,13 @@ void Display(struct node* pHead){
 }
 
 
-//function to delete all nodes from the list
-void DeleteAll(struct node** ppHead){
-    //code
+void DeleteAll(struct node **ppHead) {
+    
+    struct node *pTemp = NULL;
+
+    while(*ppHead != NULL) {
+        pTemp = *ppHead;
+        *ppHead = pTemp -> pNext;
+        free(pTemp);
+    }
 }

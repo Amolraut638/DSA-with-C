@@ -1,5 +1,5 @@
-#include<stdio.h>
-#include<malloc.h>
+#include <stdio.h>
+#include <malloc.h>
 
 struct node {
     struct node *pPrev;
@@ -7,39 +7,39 @@ struct node {
     struct node *pNext;
 };
 
-//function declarations
 void Display(struct node *);
 void DeleteAll(struct node **);
-int DeleteFirst(struct node **);
 void InsertFirst(struct node **, int);
-
+void ConcatLists(struct node **, struct node **);
 
 int main(void) {
 
-    int iDelData;
     struct node *pFirst = NULL;
+    struct node *pSecond = NULL;
 
-    InsertFirst(&pFirst, 90);
+    InsertFirst(&pFirst, 30);
+    InsertFirst(&pFirst, 20);
     InsertFirst(&pFirst, 10);
-    InsertFirst(&pFirst, 40);
-    InsertFirst(&pFirst, 80);
-    InsertFirst(&pFirst, 60);
 
-    printf("The List nodes before deletion : ");
-    Display(pFirst);   // |60|->|80|->|40|->|10|->|90|->|NULL|
-    
-    iDelData = DeleteFirst(&pFirst);
-    printf("\nThe node %d is deleted from the list");  // The node 60 is deleted from the list
+    Display(pFirst);  // |10|->|20|->|30|->|NULL|
 
-    printf("\nThe List nodes After deleting first node : ");
-    Display(pFirst);   // |80|->|40|->|10|->|90|->|NULL|
-  
+    InsertFirst(&pSecond, 60);
+    InsertFirst(&pSecond, 50);
+    InsertFirst(&pSecond, 40);
+
+    printf("\n");
+    Display(pSecond);  // |40|->|50|->|60|->|NULL|
+
+    ConcatLists(&pFirst, &pSecond);
+
+    printf("\n");
+    Display(pFirst);  // |10|->|20|->|30|->|40|->|50|->|60|->|NULL|
 
     if(NULL != pFirst) {
         DeleteAll(&pFirst);
         pFirst = NULL;
-    } 
-    
+    }
+
     printf("\n");
     Display(pFirst);  // List is empty !
 
@@ -47,26 +47,28 @@ int main(void) {
 }
 
 
-int DeleteFirst(struct node **ppHead) {
+void ConcatLists(struct node **ppHead1, struct node **ppHead2) {
 
-    int iDelData;
+    struct node *pTemp = NULL;
 
-    if(NULL == *ppHead)
-        return -1;
-
-    iDelData = (*ppHead) -> iData;
-
-    if(NULL == (*ppHead) -> pNext) {  //only single node is present
-        free(*ppHead);
-        ppHead = NULL;
-    }
-    else {    //multiple nodes are present
-        *ppHead = (*ppHead) -> pNext;
-        free((*ppHead) -> pPrev);
-        (*ppHead) -> pPrev = NULL;
+    if(NULL == *ppHead2) {
+        return;
     }
 
-    return iDelData;
+    if(NULL == *ppHead1) {
+        *ppHead1 = *ppHead2;
+        *ppHead2 = NULL;
+        return;
+    }
+
+    //both lists are present
+    pTemp = *ppHead1;
+    while(pTemp -> pNext != NULL) 
+        pTemp = pTemp -> pNext;
+
+    pTemp -> pNext = *ppHead2;
+    (*ppHead2) -> pPrev = pTemp;  
+    *ppHead2 = NULL;
 }
 
 
@@ -83,7 +85,7 @@ void InsertFirst(struct node **ppHead, int iNo) {
     pNewNode -> iData = iNo;
     pNewNode -> pPrev = NULL;
 
-    if(NULL == *ppHead) {  //if the new node is the first node to insert
+    if(NULL == *ppHead) {  
         pNewNode -> pNext = NULL;
         *ppHead = pNewNode;
         return; 
@@ -102,7 +104,7 @@ void Display(struct node *pHead) {
         return;
     }
         
-    while(pHead != NULL) { 
+    while(NULL != pHead) { 
         printf("|%d|->", pHead -> iData);
         pHead = pHead -> pNext;
     }

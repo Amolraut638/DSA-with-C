@@ -1,5 +1,5 @@
-#include<stdio.h>
-#include<malloc.h>
+#include <stdio.h>
+#include <malloc.h>
 
 struct node {
     struct node *pPrev;
@@ -7,43 +7,80 @@ struct node {
     struct node *pNext;
 };
 
-//function declarations
+
 void Display(struct node *);
+int CountNodes(struct node *);
 void DeleteAll(struct node **);
 int DeleteFirst(struct node **);
 void InsertFirst(struct node **, int);
+int DeleteAtPosition(struct node **, int);
 
 
 int main(void) {
 
-    int iDelData;
+    int iDelData;  
     struct node *pFirst = NULL;
 
+    InsertFirst(&pFirst, 30);
+    InsertFirst(&pFirst, 20);
+    InsertFirst(&pFirst, 70);
     InsertFirst(&pFirst, 90);
-    InsertFirst(&pFirst, 10);
     InsertFirst(&pFirst, 40);
-    InsertFirst(&pFirst, 80);
-    InsertFirst(&pFirst, 60);
 
-    printf("The List nodes before deletion : ");
-    Display(pFirst);   // |60|->|80|->|40|->|10|->|90|->|NULL|
-    
-    iDelData = DeleteFirst(&pFirst);
-    printf("\nThe node %d is deleted from the list");  // The node 60 is deleted from the list
+    printf("before deleting the node : ");
+    Display(pFirst);   // |40|->|90|->|70|->|20|->|30|->|NULL|
 
-    printf("\nThe List nodes After deleting first node : ");
-    Display(pFirst);   // |80|->|40|->|10|->|90|->|NULL|
-  
+    iDelData = DeleteAtPosition(&pFirst, 5);    
+    printf("\nThe node %d is deleted from linked list\n", iDelData);  // The node 30 is deleted from linked list
+
+    printf("after deleting the node : ");
+    Display(pFirst);   // |40|->|90|->|70|->|20|->|NULL|
 
     if(NULL != pFirst) {
         DeleteAll(&pFirst);
         pFirst = NULL;
     } 
-    
+
     printf("\n");
-    Display(pFirst);  // List is empty !
+    Display(pFirst); // List is empty ! 
 
     return 0;
+}
+
+
+int DeleteAtPosition(struct node **ppHead, int iPos) {
+
+    int iCount;
+    struct node *pTemp = NULL;
+    iCount = CountNodes(*ppHead);
+
+    if(iPos <= 0 || iPos > iCount) {
+        printf("Invalid Position !");
+        return -1;
+    }
+
+    if(iPos == 1) {
+        return DeleteFirst(ppHead);
+    }
+
+    pTemp = *ppHead;
+    iCount = 1;
+
+    while(iCount < iPos) {
+        iCount++;
+        pTemp = pTemp -> pNext;
+    }  //pTemp pointing to deleting node
+
+    pTemp -> pPrev -> pNext = pTemp -> pNext;
+    if(pTemp -> pNext != NULL)
+        pTemp -> pNext -> pPrev = pTemp -> pPrev;
+    iCount = pTemp -> iData;
+    pTemp -> pPrev = NULL;
+    pTemp -> pNext = NULL;
+    free(pTemp);
+    pTemp = NULL;
+
+    return iCount;
 }
 
 
@@ -83,7 +120,7 @@ void InsertFirst(struct node **ppHead, int iNo) {
     pNewNode -> iData = iNo;
     pNewNode -> pPrev = NULL;
 
-    if(NULL == *ppHead) {  //if the new node is the first node to insert
+    if(NULL == *ppHead) {  
         pNewNode -> pNext = NULL;
         *ppHead = pNewNode;
         return; 
@@ -95,6 +132,19 @@ void InsertFirst(struct node **ppHead, int iNo) {
 }
 
 
+int CountNodes(struct node *pHead) {
+
+    int iCount = 0;
+
+    while(NULL != pHead){
+        iCount++;
+        pHead = pHead -> pNext;
+    }
+
+    return iCount;
+}
+
+
 void Display(struct node *pHead) {
     
     if(NULL == pHead) {
@@ -102,7 +152,7 @@ void Display(struct node *pHead) {
         return;
     }
         
-    while(pHead != NULL) { 
+    while(NULL != pHead) { 
         printf("|%d|->", pHead -> iData);
         pHead = pHead -> pNext;
     }

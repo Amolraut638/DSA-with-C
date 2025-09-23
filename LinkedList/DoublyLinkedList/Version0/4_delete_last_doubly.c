@@ -1,9 +1,9 @@
 #include<stdio.h>
 #include<malloc.h>
 struct node {
-    struct node*pPrev;
+    struct node *pPrev;
     int iData;
-    struct node*pNext;
+    struct node *pNext;
 };
 
 void Display(struct node *);
@@ -43,7 +43,7 @@ int main(void) {
 }   
 
 
-int DeleteLast(struct node**ppHead) {
+int DeleteLast(struct node **ppHead) {
 
     int iDelData;
     struct node *pTemp = NULL;

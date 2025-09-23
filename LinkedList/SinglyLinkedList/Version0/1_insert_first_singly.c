@@ -1,5 +1,5 @@
-#include<stdio.h>
-#include<malloc.h>
+#include <stdio.h>
+#include <malloc.h>
 struct node {
     int iData;
     struct node *pNext;
@@ -52,7 +52,7 @@ void InsertFirst(struct node **ppHead, int iNo) {
 
 void Display(struct node *pHead) {
     
-    if(NULL == pHead){
+    if(NULL == pHead) {
         printf("List is empty !");
         return;
     }

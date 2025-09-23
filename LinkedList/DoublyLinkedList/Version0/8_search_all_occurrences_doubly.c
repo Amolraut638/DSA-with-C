@@ -1,21 +1,22 @@
 #include<stdio.h>
 #include<malloc.h>
+
 struct node {
-    struct node* pPrev;
+    struct node *pPrev;
     int iData;
-    struct node* pNext;
+    struct node *pNext;
 };
 
-void Display(struct node*);
-void DeleteAll(struct node**);
-void InsertFirst(struct node**, int);
+void Display(struct node *);
+void DeleteAll(struct node **);
+void InsertFirst(struct node **, int);
 int SearchAllOccurrences(struct node *, int);
 
 
 int main(void) {
 
     int iCount;
-    struct node* pFirst;
+    struct node *pFirst;
 
     InsertFirst(&pFirst, 70);
     InsertFirst(&pFirst, 50);

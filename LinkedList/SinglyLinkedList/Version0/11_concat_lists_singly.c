@@ -6,66 +6,66 @@ struct node {
     struct node *pNext;
 };
 
-//Declaring functions
 void Display(struct node *);
 void DeleteAll(struct node **);
-int DeleteFirst(struct node **);
 void InsertFirst(struct node **, int);
-
+void ConcatLists(struct node **, struct node **);
 
 int main(void) {
 
-    int iDelData;  //to store the data from deleted node
     struct node *pFirst = NULL;
+    struct node *pSecond = NULL;
 
-    InsertFirst(&pFirst, 10);
-    InsertFirst(&pFirst, 60);
-    InsertFirst(&pFirst, 20);
     InsertFirst(&pFirst, 30);
-    InsertFirst(&pFirst, 80);
-    InsertFirst(&pFirst, 40);
+    InsertFirst(&pFirst, 20);
+    InsertFirst(&pFirst, 10);
 
-   
-    printf("before deleting first node : ");
-    Display(pFirst);   // |40|->|80|->|30|->|20|->|60|->|10|->NULL
+    Display(pFirst);
 
-   
-    iDelData = DeleteFirst(&pFirst);    
-    printf("\nThe node %d is deleted from linked list\n", iDelData);  // The node 40 is deleted from linked list
+    InsertFirst(&pSecond, 60);
+    InsertFirst(&pSecond, 50);
+    InsertFirst(&pSecond, 40);
 
-   
-    printf("after deleting the first node : ");
-    Display(pFirst);   // |80|->|30|->|20|->|60|->|10|->NULL
+    printf("\n");
+    Display(pSecond);
+
+    ConcatLists(&pFirst, &pSecond);
+
+    printf("\n");
+    Display(pFirst);
 
     if(NULL != pFirst) {
         DeleteAll(&pFirst);
         pFirst = NULL;
-    } 
+    }
 
     printf("\n");
-    Display(pFirst); // List is empty ! 
+    Display(pFirst);  // List is empty !
 
     return 0;
 }
 
+void ConcatLists(struct node **ppHead1, struct node **ppHead2) {
 
-int DeleteFirst(struct node **ppHead) {
-
-    int iDelData;
     struct node *pTemp = NULL;
 
-    if(NULL == *ppHead)
-        return -1; 
+    if(NULL == *ppHead2) {
+        return;
+    }
 
-    pTemp = *ppHead;
-    iDelData = pTemp -> iData;
-    *ppHead = pTemp -> pNext;
+    if(NULL == *ppHead1) {
+        *ppHead1 = *ppHead2;
+        *ppHead2 = NULL;
+        return;
+    }
 
-    pTemp -> pNext = NULL;
-    free(pTemp);
-    pTemp = NULL;
+    //both lists are present
+    pTemp = *ppHead1;
+    while(pTemp -> pNext != NULL) 
+        pTemp = pTemp -> pNext;
 
-    return iDelData;
+    pTemp -> pNext = *ppHead2;
+    *ppHead2 = NULL;
 }
 
 
